@@ -1,0 +1,23 @@
+.button_size_s {
+    height: 24px;
+    padding: 0 6px;
+}
+
+.button_size_s .button__item {
+    width: 10px;
+    height: 10px;
+}
+
+@media screen and (max-width: 500px) {
+    .button_size_s {
+        height: 18px;
+        padding: 0 3px;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .button_size_s .button__item {
+        width: 8px;
+        height: 8px;
+    }
+}
