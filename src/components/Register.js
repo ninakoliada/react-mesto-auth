@@ -1,16 +1,13 @@
 import Input from "./Input";
 import Button from "./Button";
-import * as auth from '../auth';
 
 import '../styles/Register.css';
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useState } from "react";
 
-const Register = ({ onError, onSuccess }) => {
+const Register = ({ onRegister }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-
-    const history = useHistory();
 
     function onChangeHandler (e) {
         if (e.target.name === 'email') {
@@ -23,15 +20,7 @@ const Register = ({ onError, onSuccess }) => {
     function onSubmitHandler (e) {
         e.preventDefault();
 
-        auth.register(email, password)
-            .then(() => {
-                onSuccess();
-                history.push('/sign-in');
-            })
-            .catch((error) => {
-                console.log(error);
-                onError();
-            })
+        onRegister(email, password);
     }
 
     return (

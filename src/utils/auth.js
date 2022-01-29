@@ -28,19 +28,14 @@ export const authorize = (email, password) => {
     body: JSON.stringify({ email, password })
   })
   .then((response) => {
+    console.log(response);
+
     if (!response.ok) {
       throw new Error('Authorize Error');
     }
 
     return response.json();
-  })
-  .then((data) => {
-    if (data.token){
-      localStorage.setItem('jwt', data.token);
-      
-      return data;
-    } 
-  })
+  });
 };
 
 export const checkToken = (token) => {
@@ -53,5 +48,4 @@ export const checkToken = (token) => {
     }
   })
   .then(res => res.json())
-  .then(data => data)
 }

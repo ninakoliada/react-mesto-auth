@@ -3,11 +3,7 @@ import { Switch, Route, Link } from 'react-router-dom';
 import logo from '../images/logo.svg';
 import '../styles/Header.css';
 
-const Header = ({ email }) => {
-    function onLoggoutClick() {
-        localStorage.removeItem('jwt');
-    }
-
+const Header = ({ email, onLoggoutClick }) => {
     return (
         <header className="header">
             <img className="header__logo" src={logo} alt="Логотип Место" />

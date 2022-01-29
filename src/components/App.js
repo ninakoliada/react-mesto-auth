@@ -13,7 +13,7 @@ import Login from "./Login";
 import Register from "./Register";
 import ProtectedRoute from "./ProtectedRoute";
 import InfoTooltip from "./InfoTooltip";
-import * as auth from '../auth';
+import * as auth from '../utils/auth';
 
 const App = () => {
   const history = useHistory();
@@ -22,7 +22,7 @@ const App = () => {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState(null);
   const [currentUser, setCurrentUser] = useState({});
-  const [loggenIn, setLoggenIn] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(false);
   const [isTooltipOpen, setIsTooltipOpen] = useState(false);
   const [tooltipType, setTooltipType] = useState('success');
   const [email, setEmail] = useState('');
@@ -35,14 +35,14 @@ const App = () => {
       auth.checkToken(jwt)
         .then((res) => {
           if (res) {
-            setLoggenIn(true);
+            setLoggedIn(true);
             setEmail(res.data.email);
 
             if (history.location.pathname !== '/') {
               history.push('/')
             }
           } else {
-            setLoggenIn(false);
+            setLoggedIn(false);
             setEmail('');
             history.push('/sign-in')
           }
@@ -51,7 +51,7 @@ const App = () => {
           console.log(error)
         });
     }
-  }, [loggenIn, history]);
+  }, [loggedIn, history]);
 
   useEffect(() => {
     Promise.all([api.getUserInfo(), api.getInitialCards()])
@@ -141,17 +141,40 @@ const App = () => {
       })
   }
 
-  function handleLoggedIn() {
-    setLoggenIn(true);
+  function handleRegister(email, password) {
+    auth.register(email, password)
+      .then(() => {
+        setTooltipType('success');
+        setIsTooltipOpen(true);
+
+        setTimeout(() => handleLogin(email, password), 100);
+      })
+      .catch(() => onError())
   }
 
-  function handleError() {
+  function handleLogin(email, password) {
+      auth.authorize(email, password)
+        .then((res) => {
+            if (res.token) {
+                setLoggedIn(true);
+                localStorage.setItem('jwt', res.token);
+
+                history.push('/');
+            }
+        })
+        .catch((err) => {
+            onError();
+            console.log(err);
+        })
+  }
+
+  function handleLogout() {
+    localStorage.removeItem('jwt');
+    setLoggedIn(false);
+  }
+
+  function onError() {
     setTooltipType('failed');
-    setIsTooltipOpen(true);
-  }
-
-  function handleSuccessRegister() {
-    setTooltipType('success');
     setIsTooltipOpen(true);
   }
   
@@ -162,15 +185,15 @@ const App = () => {
   return (
     <div className="page__content">
       <UserContext.Provider value={currentUser}>
-          <Header email={email} />
+          <Header email={email} onLoggoutClick={handleLogout} />
           <Switch>
             <Route path="/sign-up">
-              <Register onError={handleError} onSuccess={handleSuccessRegister} />
+              <Register onRegister={handleRegister} />
             </Route>
             <Route path="/sign-in">
-              <Login onLoggedIn={handleLoggedIn} onError={handleError} />
+              <Login onLoggedIn={handleLogin} />
             </Route>
-            <ProtectedRoute loggedIn={loggenIn} path="/">
+            <ProtectedRoute loggedIn={loggedIn} path="/">
               <Main
                 cards={cards}
                 onEditProfile={onEditProfile}

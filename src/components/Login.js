@@ -1,15 +1,12 @@
+import { useState } from 'react';
 import Input from "./Input";
 import Button from "./Button";
-import * as auth from '../auth';
-import { useState } from 'react';
-import { useHistory } from "react-router-dom";
 
 import '../styles/Login.css';
 
-const Login = ({ onLoggedIn, onError }) => {
+const Login = ({ onLoggedIn }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const history = useHistory();
 
     function onChangeHandler (e) {
         if (e.target.name === 'email') {
@@ -22,20 +19,7 @@ const Login = ({ onLoggedIn, onError }) => {
     function onSubmitHandler (e) {
         e.preventDefault();
 
-        auth.authorize(email, password)
-            .then((res) => {
-                if (res.token) {
-                    setEmail('');
-                    setPassword('');
-                    
-                    onLoggedIn();
-                    history.push('/');
-                }
-            })
-            .catch((err) => {
-                onError();
-                console.log(err);
-            })
+        onLoggedIn(email, password);
     }
 
     return (
