@@ -1,5 +1,6 @@
 import { useContext, useState, useEffect } from "react"
 import { UserContext } from "../contexts/CurrentUserContext";
+import Input from "./Input";
 
 import PopupWithForm from './PopupWithForm';
 
@@ -31,11 +32,11 @@ const EditProfilePopup = ({ isOpen, onClose, onUpdateUser }) => {
     return (
         <PopupWithForm isOpen={isOpen} onClose={onClose} onSubmit={handleSubmit} title="Редактировать профиль" name="profile" buttonText="Сохранить">
           <label className="popup__form-field">
-            <input value={name || ''} onChange={onChange} id="user-name" name="name" className="popup__input popup__input_type_name" type="text" placeholder="ФИО" required minLength="2" maxLength="40" />
+            <Input value={name || ''} onChange={onChange} id="user-name" type="text" name="name" placeholder="ФИО" required minLength="2" maxLength="40" />
             <span className="popup__error user-name-error"></span>
           </label>
           <label className="popup__form-field">
-            <input value={about || ''} onChange={onChange} id="user-about" name="about" className="popup__input popup__input_type_about" type="text" placeholder="Род занятий" required minLength="2" maxLength="200" />
+            <Input value={about || ''} onChange={onChange} id="user-about" type="text" name="about" placeholder="Род занятий" required minLength="2" maxLength="200" />
             <span className="popup__error user-about-error"></span>
           </label>
         </PopupWithForm>

@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import { UserContext } from "../contexts/CurrentUserContext";
+import Button from './Button';
 
 const Card = ({card, onCardClick, onCardLike, onCardDelete }) => {
     const currentUser = useContext(UserContext);
@@ -30,11 +31,11 @@ const Card = ({card, onCardClick, onCardLike, onCardDelete }) => {
             <div className="card__section">
                 <h4 className="card__text">{card.name}</h4>
                 <div className="card__likes">
-                    <button type="button" className={cardLikeButtonClassName} onClick={handleLikeClick} ></button>
+                    <Button type="button" className={cardLikeButtonClassName} onClick={handleLikeClick}></Button>
                     <span className="card__likes-count">{card.likes.length}</span>
                 </div>
             </div>
-            <button type="button" className={cardDeleteButtonClassName} onClick={handleDeleteClick}></button>
+            <Button type="button" className={cardDeleteButtonClassName} onClick={handleDeleteClick}></Button>
         </div>
     )
 }

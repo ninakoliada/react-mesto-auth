@@ -1,3 +1,5 @@
+import Button from './Button';
+
 const ImagePopup = ({ card, onClose }) => {
     const { name, link } = card || {};
     const className = `popup page__image-popup ${card ? 'popup_visibility_visible' : ''}`;
@@ -8,7 +10,7 @@ const ImagePopup = ({ card, onClose }) => {
             <div className="popup__content">
                 <img className="popup__image" alt={name} src={link}/>
                 <h3 className="popup__description">{name}</h3>
-                <button type="button" className="button popup__close" onClick={onClose}></button>
+                <Button type="button" className="button popup__close" onClick={onClose}></Button>
             </div>
         </div>
     )

@@ -1,5 +1,6 @@
 import editButton from '../images/edit_button.svg';
 import addButton from '../images/add_button.svg';
+import Button from './Button';
 
 const Profile = ({ name, about, avatar, onEditProfile, onAddPlace, onEditAvatar }) => {
     return (
@@ -11,15 +12,15 @@ const Profile = ({ name, about, avatar, onEditProfile, onAddPlace, onEditAvatar 
             <div className="profile__info">
                 <div className="profile__content">
                     <h1 className="profile__name">{name}</h1>
-                    <button type="button" className="button button_size_s profile__edit-button" onClick={onEditProfile}>
+                    <Button theme="transparent" type="button" className="profile__edit-button" size="s" onClick={onEditProfile}>
                         <img src={editButton} alt="Кнопка редактировать профиль"/>
-                    </button>
+                    </Button>
                 </div>
                 <p className="profile__about">{about}</p>
             </div>
-            <button type="button" className="button button_size_l profile__add-button" onClick={onAddPlace}>
+            <Button type="button" size="l" theme="transparent" className="profile__add-button" onClick={onAddPlace}>
                 <img className="profile__add-image" src={addButton} alt="Кнопка добавить"/>
-            </button>
+            </Button>
         </section>
     )
 }
